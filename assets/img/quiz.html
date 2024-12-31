@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oltalama Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+
+    .quiz-question h2 {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .quiz-question ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .quiz-question li {
+      margin-bottom: 10px;
+    }
+
+    #submit {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #submit:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Oltalama Quiz</h1>
+    <br><br>
+    <div id="quiz"></div>
+    <button id="submit">Sonuçları Göster</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    // Sorular ve doğru cevaplar
+    const questions = [
+      {
+        question: "Oltalama saldırıları hangi amaçla yapılır?",
+        options: [
+          "Bilgi çalmak",
+          "Sistemi hızlandırmak",
+          "Şifreleme yapmak",
+          "Dosya sıkıştırmak"
+        ],
+        correct: "Bilgi çalmak"
+      },
+      {
+        question: "Bir oltalama saldırısı içeren e-postanın genellikle amacı nedir?",
+        options: [
+          "Kullanıcı bilgilerini çalmak",
+          "Reklam göstermek",
+          "Kendi IP adresinizi gizlemek",
+          "E-posta kutusunu temizlemek"
+        ],
+        correct: "Kullanıcı bilgilerini çalmak"
+      },
+      {
+        question: "Hangi durum oltalama e-posta saldırısının bir işareti olabilir?",
+        options: [
+          "E-postada aceleyle işlem yapmanız istenir.",
+          "E-postada imla hatası yoktur.",
+          "Gönderici adresi kurumsal bir e-posta adresidir.",
+          "E-posta profesyonel bir şekilde yazılmıştır."
+        ],
+        correct: "E-postada aceleyle işlem yapmanız istenir."
+      },
+      {
+        question: "Güvenilir bir e-posta bağlantısını nasıl doğrularsınız?",
+        options: [
+          "Üzerine tıklayarak açarak",
+          "Bağlantıyı kopyalayıp tarayıcıya yapıştırarak",
+          "Fareyi bağlantının üzerine getirerek adresi kontrol ederek",
+          "Bilgisayarı yeniden başlatarak"
+        ],
+        correct: "Fareyi bağlantının üzerine getirerek adresi kontrol ederek"
+      },
+        { // Eklenecek
+          question: "Güvenilir bir e-posta bağlantısını nasıl doğrularsınız?",
+          options: [
+            "Üzerine tıklayarak açarak",
+            "Bağlantıyı kopyalayıp tarayıcıya yapıştırarak",
+            "Fareyi bağlantının üzerine getirerek adresi kontrol ederek",
+            "Bilgisayarı yeniden başlatarak"
+          ],
+          correct: "Fareyi bağlantının üzerine getirerek adresi kontrol ederek"
+        },
+      // Ek soruları aynı formatta buraya ekleyin
+    ];
+
+    // Quiz elementini seç
+    const quizDiv = document.getElementById("quiz");
+
+    // Soruları dinamik olarak oluştur
+    questions.forEach((q, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.classList.add("quiz-question");
+
+      const questionTitle = document.createElement("h2");
+      questionTitle.innerText = `${index + 1}. ${q.question}`;
+      questionDiv.appendChild(questionTitle);
+
+      const optionsList = document.createElement("ul");
+      q.options.forEach(option => {
+        const listItem = document.createElement("li");
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `q${index}`;
+        input.value = option;
+
+        const label = document.createElement("label");
+        label.innerText = option;
+
+        listItem.appendChild(input);
+        listItem.appendChild(label);
+        optionsList.appendChild(listItem);
+      });
+
+      questionDiv.appendChild(optionsList);
+      quizDiv.appendChild(questionDiv);
+    });
+
+    // Sonuçları değerlendirme
+    document.getElementById("submit").addEventListener("click", () => {
+      let score = 0;
+
+      questions.forEach((q, index) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selectedOption && selectedOption.value === q.correct) {
+          score++;
+        }
+      });
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerText = `Sonuç: ${score}/${questions.length} doğru cevap.`;
+    });
+  </script>
+</body>
+</html>
